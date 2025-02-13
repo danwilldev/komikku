@@ -29,5 +29,15 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: apk
-          path: app/build/outputs/apk/debug/*.apk
+          path: app/build/outputs/apk/fdroidDebug/*.apk
           retention-days: 5
+
+      - name: Upload APK to GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: app/build/outputs/apk/fdroidDebug/*.apk
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
